@@ -1,0 +1,9 @@
+#!/usr/bin/env nix-shell
+#! nix-shell -i bash -p ripgrep
+set -euxo pipefail
+
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+cd $SCRIPTPATH
+
+rm -f generated
+rg --no-heading --no-filename --no-line-number --search-zip "^(\(provide ')(\w+(/|-)?)+\)$" -r '$2' | sort | uniq -u > generated
